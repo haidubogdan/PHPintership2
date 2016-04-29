@@ -1,0 +1,10 @@
+{first_name} {last_name}
+{base_occupation}
+{years} years experience in the field
+Phone : {phone}
+Email : {email}
+
+{workplace} since {year}
+Personal Address : {address}
+{social_1}:{id_1}
+{social_2}:{id_2}          
