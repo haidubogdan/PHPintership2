@@ -15,12 +15,18 @@ class Login
 
     function __construct()
     {
+        $forms = array("administrator"=>array("view"=>"admin_login_form_view.php"),
+                        "normal_user"=>array("view"=>"user_login_form_view.php"),);
         $autentificate = new AuthentificateModel ();
+        $user_type = "normal_user";
         if (RequestMethods::post("user_type")) {
             $autentificate->login();
+            if (RequestMethods::post("user_type") == "administrator") {
+                $user_type = "administrator";
+                //header("Location:index.php?page=admin");
+            }
         }
         $data = $autentificate->getRenderData();
-
         if (filter_input(INPUT_GET, 'logout')) {
             $autentificate->descructSession();
         }
@@ -31,9 +37,9 @@ class Login
             echo "incepeme";
             $autentificate->startSession();
         } else {
-            $autentificate->render(VIEW_PATH . "user_login_form_view.php", $data);
-        } 
-  
+            $autentificate->render(VIEW_PATH . $forms[$user_type]["view"], $data);
+        }
+
         include VIEW_PATH . "footer_view.php";
     }
 

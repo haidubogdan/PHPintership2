@@ -6,6 +6,7 @@ use Quiz\controllers\EditQuestion as EditQuestion;
 use Quiz\models\QuestionModel as QuestionModel;
 use Quiz\models\QuizModel as QuizModel;
 use Quiz\models\RequestMethods as RequestMethods;
+use Quiz\models\AuthentificateModel as AuthentificateModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,30 +26,33 @@ class Admin
     private $json_scripts = array("general_js.js", "admin_js.js");
     private $valid_sub_pages_view = array(
         "create_quiz" => array("path" => "quiz_creator_view.php", "class" => "CreateQuiz"),
-        "edit_quiz" => array("path" => "quiz_edit_view.php", "class" => "createQuizParameters"),
+        "edit_quiz" => array("path" => "quiz_edit_view.php", "class" => "CreateQuiz"),
         "create_question" => array("path" => "create_question_view.php", "class" => "CreateQuestion"),
         "edit_question" => array("path" => "edit_question_view.php", "class" => "EditQuestion"),
-        "edit_quiz_list" => array("path" => "quiz_list_edit_view.php", "class" => "createQuizParameters")
+        "edit_quiz_list" => array("path" => "quiz_list_edit_view.php", "class" => "CreateQuiz")
     );
 
     function __construct()
     {
+        $autentificate = new AuthentificateModel ();
+        $data = $autentificate->getRenderData();
         if (empty($_SESSION['admin']) && !empty($_SESSION['logged'])) {
             header("Location:index.php?page=home");
         }
         include VIEW_PATH . "head_view.php";
         include VIEW_PATH . "main_menu_view.php";
-
+        
         if (empty($_SESSION['admin'])) {
-            include VIEW_PATH . "admin_login_form_view.php";
+            $autentificate->render(VIEW_PATH . "admin_login_form_view.php", $data);
         } else {
             include VIEW_PATH . "admin_menu_view.php";
 
             $sub_page = RequestMethods::get('operation');
-
+            
             if (!empty($sub_page)) {
                 $class = $this->valid_sub_pages_view[$sub_page]['class'];
-                call_user_func(array(__NAMESPACE__ . "\\" . $class, 'getView'), $sub_page);
+                $page = $this->valid_sub_pages_view[$sub_page]['path'];
+                call_user_func(array(__NAMESPACE__ . "\\" . $class, 'getView'), $page);
                 $element_id = RequestMethods::get($sub_page."_id");
             }
         }

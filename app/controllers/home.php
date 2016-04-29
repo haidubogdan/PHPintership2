@@ -11,6 +11,7 @@ class Home
 
     function __construct()
     {
+        var_dump($_SESSION);
         include VIEW_PATH . "head_view.php";
         include VIEW_PATH . "main_menu_view.php";
         include VIEW_PATH . "home_view.php";

@@ -12,6 +12,7 @@ class AutoLoader
         }
         require "app/controllers/controller.php";
         require "app/controllers/CreateQuestion.php";
+        require "app/controllers/CreateQuiz.php";
         require "app/controllers/edit_question.php";
         require 'app/models/db.php';
         require 'app/Entity/UserRepository.php';

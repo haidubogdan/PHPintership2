@@ -18,13 +18,15 @@ class User
 
     private $id;
     private $username;
+    private $email;
     private $password;
     private $usertype;
 
     public function setId($id)
     {
         $this->id = $id;
-    }   
+    }
+
     public function setUsername($username)
     {
         $this->username = $username;
@@ -35,14 +37,26 @@ class User
         return $this->username;
     }
 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
     public function setPassword($password)
     {
-        $this->password = password_hash($password,PASSWORD_DEFAULT);
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
+
     public function getPassword()
     {
         return $this->password;
     }
+
     public function setUserType($user_type)
     {
         $this->usertype = $user_type;
@@ -52,5 +66,5 @@ class User
     {
         return $this->usertype;
     }
-    
+
 }

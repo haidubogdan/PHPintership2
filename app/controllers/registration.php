@@ -5,6 +5,8 @@ namespace Quiz\controllers;
 use Quiz\models\RequestMethods as RequestMethods;
 use Quiz\models\RenderModel as RenderModel;
 use Quiz\models\RegistrationModel as RegistrationModel;
+use Quiz\Entitiy\UserRepository as UserRepository;
+use Quiz\models\AuthentificateModel as AuthentificateModel;
 
 class Registration
 {
@@ -14,15 +16,22 @@ class Registration
 
     function __construct()
     {
+        $user_repository = new UserRepository();
         $registration = new RegistrationModel ();
+        $autentificate = new AuthentificateModel ();
         if (RequestMethods::post("user_type")) {
             $registration->registrate();
         }
 
         $data = $registration->getRenderData();
+        $user = $registration->getUserData();
         if ($data['error'] == 0) {
-            if ($registration->insertUser()) {
-                $registration->startSession();
+            $rights = $user_repository->file_permission;
+            if ($user_repository->insertUser($user)&&$rights=="0777") { //NOT A GOOD VALIDATION
+                $autentificate->login();
+                $autentificate->startSession();
+            } else {
+                echo "File permission needed to register user";
             }
         }
 

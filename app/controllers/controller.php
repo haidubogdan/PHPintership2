@@ -21,7 +21,7 @@ class Controller
             "edit_question" => array("path" => "edit_question.php", "class" => "EditQuestion"),
             "create_question_part2" => array("path" => "create_question_part2.php", "class" => "CreateQuestion2"),
             "admin" => array("path" => "admin.php", "class" => "Admin"),
-            "save_quiz" => array("path" => "save_quiz.php", "class" => "SaveQuiz"),
+            "save_quiz" => array("path" => "CreateQuiz.php", "class" => "CreateQuiz"),
             "edit_quiz" => array("path" => "edit_quiz.php", "class" => "EditQuiz"),
             "quiz_test" => array("path" => "quiz_test.php", "class" => "QuizTest"),
             "quiz_results" => array("path" => "QuizResults.php", "class" => "QuizResults"),

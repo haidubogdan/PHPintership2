@@ -4,6 +4,8 @@ namespace Quiz\models;
 
 use Quiz\models\User as User;
 use Quiz\models\DB as DB;
+use Quiz\Entitiy\UserRepository as UserRepository;
+
 
 class RegistrationModel extends RenderModel
 {
@@ -25,6 +27,7 @@ class RegistrationModel extends RenderModel
     {
         if (RequestMethods::post("user_type")) {
             $this->data['username'] = $username = RequestMethods::post("username");
+            $this->data['email'] = $email = RequestMethods::post("email");
             $this->data['password'] = $password = RequestMethods::post("password");
             $this->data['user_type'] = $usertype = RequestMethods::post("user_type");
             $this->error = 0;
@@ -32,10 +35,16 @@ class RegistrationModel extends RenderModel
         }
 
         if (empty($username)) {
-            $this->data["username_error"] = "Complete username!";
+            $this->data["username_error"] = "Complete username!<br>";
             $this->error = 1;
         } else {
             $this->validateName($username);
+        }
+        if (empty($email)) {
+            $this->data["email_error"] = "Complete email!<br>";
+            $this->error = 1;
+        } else {
+            $this->validateEmail($email);
         }
         if (empty($password)) {
             $this->data["password_error"] = "Complete password!";
@@ -48,6 +57,7 @@ class RegistrationModel extends RenderModel
         if (!$this->error) {
             $user = new User();
             $user->setUsername($username);
+            $user->setEmail($email);
             $user->setUserType($usertype);
             $user->setPassword($password);
             $this->registered_user = $user;
@@ -64,10 +74,23 @@ class RegistrationModel extends RenderModel
                 var_dump(preg_match('/' . $pattern . '/', $username));
                 if (preg_match('/' . $pattern . '/', $username)) {
                     $this->data["username_error"] = $values ["error"] . "<br>";
-                    $this->error=1;
+                    $this->error = 1;
                     break;
                 }
             }
+        }
+    }
+
+    public function validateEmail($email = "string")
+    {
+        $user_repository = new UserRepository ();
+        $check_duplicate = $user_repository->getUserbyEmail($email);
+        if ($check_duplicate) {
+            $this->data["email_error"] = "Duplicate email!<br>";
+            $this->error = 1;
+        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->data["email_error"] = "Not a valid email!<br>";
+            $this->error = 1;
         }
     }
 
@@ -80,42 +103,10 @@ class RegistrationModel extends RenderModel
                 var_dump(preg_match('/' . $pattern . '/', $password));
                 if (preg_match('/' . $pattern . '/', $password)) {
                     $this->data["password_error"] = $values ["error"];
-                    $this->error=1;
+                    $this->error = 1;
                     break;
                 }
             }
-        }
-    }
-
-    public function insertUser()
-    {
-        $user = $this->registered_user;
-        date_default_timezone_set('Europe/Bucharest');
-        $creation_date = array("date" => date('Y/m/d h:i:sa ', time()));
-        $data = array("username" => $user->getUsername(),
-            "password" => $user->getPassword(),
-            "user_type" => $user->getUserType(),
-        );
-
-        var_dump($data);
-        $db = new DB ();
-        if (!file_exists($this->users_data_path . $this->file_name)) {
-            echo "File doesn't exist!!";
-            $this->registered_user->setId(0);
-            $id = array("id" => 0);
-            $new_data [] = $id + $data + $creation_date;
-            $db->saveData($this->file_name, $this->users_data_path, $new_data);
-            return 1;
-        } else {
-            echo "File exists!!";
-            $new_data = $db->getJsonContentFromFile($this->file_name, $this->users_data_path);
-            $this->registered_user->setId(count($new_data));
-            $id = array("id" => count($new_data));
-            array_push($new_data, $id + $data + $creation_date);
-            $db->saveData($this->file_name, $this->users_data_path, $new_data);
-    
-            return 1;
-            
         }
     }
 
@@ -123,6 +114,11 @@ class RegistrationModel extends RenderModel
     {
         $db = new DB();
         return $db->getJsonContentFromFile($this->file_name, $this->users_data_path);
+    }
+
+    public function getUserData()
+    {
+        return $this->registered_user;
     }
 
     public function startSession()

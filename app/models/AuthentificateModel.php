@@ -4,6 +4,7 @@ namespace Quiz\models;
 
 use Quiz\models\User as User;
 use Quiz\models\DB as DB;
+use Quiz\Entitiy\UserRepository as UserRepository;
 
 class AuthentificateModel extends RenderModel
 {
@@ -15,14 +16,14 @@ class AuthentificateModel extends RenderModel
     public function login()
     {
         if (RequestMethods::post("user_type")) {
-            $this->data['username'] = $username = RequestMethods::post("username");
+            $this->data['email'] = $email = RequestMethods::post("email");
             $this->data['password'] = $password = RequestMethods::post("password");
             $this->data['user_type'] = $usertype = RequestMethods::post("user_type");
             $this->error = 0;
         }
 
-        if (empty($username)) {
-            $this->data["username_error"] = "Complete username";
+        if (empty($email)) {
+            $this->data["email_error"] = "Complete email";
             $this->error = 1;
         }
         if (empty($password)) {
@@ -36,7 +37,7 @@ class AuthentificateModel extends RenderModel
 
         if (!$this->error) {
             $user = new User();
-            $user->setUsername($username);
+            $user->setEmail($email);
             $user->setUserType($usertype);
             $this->authentificated_user = $user;
             var_dump($this->authentificated_user);
@@ -72,7 +73,7 @@ class AuthentificateModel extends RenderModel
     {
         return function(&$item) use ($data) {
 
-            if ($item['username'] == $data['username'] && password_verify($data['password'], $item['password'])) {
+            if ($item['email'] == $data['email'] && password_verify($data['password'], $item['password'])) {
                 $data['password'] = $item['password'];
                 return $item;
             }
@@ -87,11 +88,13 @@ class AuthentificateModel extends RenderModel
 
     public function startSession()
     {
+        $user_repository = new UserRepository ();
         $user = $this->authentificated_user;
+        $email = $user->getEmail();
         $_SESSION['logged'] = 1;
-        $_SESSION['user']['username'] = $user->getUsername();
-        $test = $user->getUsername();
-        var_dump($test);
+        $username = $user_repository->getUsernameByEmail($email);
+        $_SESSION['user']['id'] = $user_repository->getIdByEmail($email);
+        $_SESSION['user']['username'] = $username;
         $start_session_name = $user->getUserType() . "Session";
         $this->$start_session_name();
      }

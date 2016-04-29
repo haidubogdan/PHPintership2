@@ -13,8 +13,10 @@ class RenderModel
      * @return string
      */
     protected $data = array("username_error" => "",
+        "email_error" => "",
         "password_error" => "",
         "username" => "",
+        "email" => "",
         "password" => "",
         "credential_error"=>"",
         "register"=>0,

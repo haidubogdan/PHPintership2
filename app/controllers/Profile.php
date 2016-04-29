@@ -23,8 +23,9 @@ class Profile
         include VIEW_PATH . "head_view.php";
         include VIEW_PATH . "main_menu_view.php";
         $user_repository = new UserRepository();
-        //$result = $user_repository->getUserById(3);
-        $result = $user_repository->getUserByUsername("haidu_bogdan@yahoo.com");
+        var_dump($_SESSION);
+        $result = $user_repository->getEmailById($_SESSION['user']['id']);
+        //$result = $user_repository->getUserByUsername("haidu_bogdan@yahoo.com");
         var_dump($result);
         //include VIEW_PATH . "home_view.php";
         include VIEW_PATH . "footer_view.php";
