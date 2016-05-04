@@ -20,10 +20,10 @@ function __construct($mail_attributes=array()){
      	$mail->isSMTP();                                      // Set mailer to use SMTP
     	$mail->Host = 'athem.serverdedicat.net';  // Specify main and backup SMTP servers
     	$mail->SMTPAuth = true;                               // Enable SMTP authentication
-    	$mail->Username = 'bhastudi@bha-studio.com';                 // SMTP username
+    	$mail->Username = 'admin@bha-studio.com';                 // SMTP username
     	$mail->Password = 'Shostac.15';                           // SMTP password
     	$mail->SMTPSecure = 'tls';  
-    	$mail->setFrom('bhastudi@bha-studio.com', 'BHA Studio');
+    	$mail->setFrom('admin@bha-studio.com', 'BHA Studio');
     	$mail->addAddress($mail_attributes["Email"], $mail_attributes["Name"]); 
     	// Enable TLS encryption, `ssl` also accepted
     	if (!isset($mail_attributes["Subject"])) {

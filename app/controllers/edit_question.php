@@ -42,7 +42,7 @@ class EditQuestion
 
     public static function deleteQuestionFromList($questions,$delete_question_id)
     {
-            $questions->deleteQuestion($delete_question_id);
+            $questions->deleteQuestion($delete_question_id-1);
             header("Location:index.php?page=admin&operation=edit_question");
     }
 

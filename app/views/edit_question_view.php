@@ -9,7 +9,7 @@
         <tr>
             <td><?= $key ?></td>
             <td><?= $row['question_name'] ?></td>
-            <td><a class="delete_button" href="<?= $current_index . "&delete_question=" . $key ?>">X</a></td>
+            <td><a class="delete_button" href="<?= $current_index . "&delete_question=" . ($key+1) ?>">X</a></td>
             <td><a class="edit_button" href="<?= $current_index . "&edit_question_id=" . $key ?>">EDIT</a></td>
             <td><a href="<?= $current_index . "&see_question_id=" . $key ?>">See Question</a></td>
         </tr>

@@ -11,7 +11,7 @@ class Login
 {
 
     private $page_title = "login";
-    private $json_scripts = array("js_general.js");
+    private $json_scripts = array("general_js.js");
 
     function __construct()
     {
@@ -27,7 +27,7 @@ class Login
             }
         }
         $data = $autentificate->getRenderData();
-        if (filter_input(INPUT_GET, 'logout')) {
+        if (RequestMethods::get('logout')) {
             $autentificate->descructSession();
         }
 

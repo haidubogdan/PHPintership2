@@ -1,6 +1,7 @@
 <?php
 
-abstract class AbstractQuestion {
+abstract class AbstractQuestion
+{
 
     private $question;
 
@@ -11,19 +12,23 @@ abstract class AbstractQuestion {
     abstract protected function addQuestion();
 
     // Common method
-    public function printOut() {
+    public function printOut()
+    {
         print $this->getQuestion() . "<br>";
     }
 
 }
 
-class textareaQuestion extends AbstractQuestion {
+class textareaQuestion extends AbstractQuestion
+{
 
-    protected function addQuestion() {
+    protected function addQuestion()
+    {
         return "ConcreteClass1";
     }
 
-    protected function getQuestion() {
+    protected function getQuestion()
+    {
         return "ConcreteClass1";
     }
 
@@ -34,53 +39,64 @@ $class1->printOut();
 
 //
 
-abstract class animal {
+abstract class animal
+{
 
     abstract function getowned();
 
     private $age;
 
-    protected function __construct($age) {
+    protected function __construct($age)
+    {
         $this->age = $age;
     }
 
-    public function getage() {
+    public function getage()
+    {
         return $this->age;
     }
 
 }
 
-interface insurable {
+interface insurable
+{
 
     public function getvalue();
 }
 
-class pet extends animal implements insurable {
+class pet extends animal implements insurable
+{
 
     private $name;
 
-    public function __construct($name, $age) {
+    public function __construct($name, $age)
+    {
         parent::__construct($age);
         $this->name = $name;
     }
 
-    public function getname() {
+    public function getname()
+    {
         return $this->name;
     }
 
-    public function getowned() {
+    public function getowned()
+    {
         return ("Owner String");
     }
 
-    public function getvalue() {
+    public function getvalue()
+    {
         return ("Priceless");
     }
 
 }
 
-class house implements insurable {
+class house implements insurable
+{
 
-    public function getvalue() {
+    public function getvalue()
+    {
         return ("Rising fast");
     }
 
@@ -108,7 +124,7 @@ if ($charlie instanceof insurable)
 </body>
 
 
-   }
+}
 
 <?php
 
@@ -118,7 +134,8 @@ if ($charlie instanceof insurable)
 //     
 
 
-abstract class AbstractQuestion {
+abstract class AbstractQuestion
+{
 
     private $question;
 
@@ -129,19 +146,23 @@ abstract class AbstractQuestion {
     abstract protected function addQuestion();
 
     // Common method
-    public function printOut() {
+    public function printOut()
+    {
         print $this->getQuestion() . "<br>";
     }
 
 }
 
-class textareaQuestion extends AbstractQuestion {
+class textareaQuestion extends AbstractQuestion
+{
 
-    protected function addQuestion() {
+    protected function addQuestion()
+    {
         return "ConcreteClass1";
     }
 
-    protected function getQuestion() {
+    protected function getQuestion()
+    {
         return "ConcreteClass1";
     }
 
@@ -152,53 +173,64 @@ $class1->printOut();
 
 //
 
-abstract class animal {
+abstract class animal
+{
 
     abstract function getowned();
 
     private $age;
 
-    protected function __construct($age) {
+    protected function __construct($age)
+    {
         $this->age = $age;
     }
 
-    public function getage() {
+    public function getage()
+    {
         return $this->age;
     }
 
 }
 
-interface insurable {
+interface insurable
+{
 
     public function getvalue();
 }
 
-class pet extends animal implements insurable {
+class pet extends animal implements insurable
+{
 
     private $name;
 
-    public function __construct($name, $age) {
+    public function __construct($name, $age)
+    {
         parent::__construct($age);
         $this->name = $name;
     }
 
-    public function getname() {
+    public function getname()
+    {
         return $this->name;
     }
 
-    public function getowned() {
+    public function getowned()
+    {
         return ("Owner String");
     }
 
-    public function getvalue() {
+    public function getvalue()
+    {
         return ("Priceless");
     }
 
 }
 
-class house implements insurable {
+class house implements insurable
+{
 
-    public function getvalue() {
+    public function getvalue()
+    {
         return ("Rising fast");
     }
 
@@ -226,37 +258,69 @@ if ($charlie instanceof insurable)
 </body>
 
 <?php
+if (!isset($_SESSION['quiz_question'])) {
+    $this->current_question_id = $_SESSION['quiz_question'] = 1;
+    $next_question_id = $this->current_question_id + 1;
+} else if ($_SESSION['quiz_question'] <= $this->current_questions_number_set) {
+    $next_question_id = $this->current_question_id + 1;
+    $this->current_question_id = $_SESSION['quiz_question'];
+    $next_question_id = $this->current_question_id + 1;
+    echo "<br>VAR DUMP DE POST";
+    var_dump($_POST);
+    if (!empty($current_button_id) && $current_button_id == $this->current_question_id + 1) {
 
-        if (!isset($_SESSION['quiz_question'])) {
-            $this->current_question_id = $_SESSION['quiz_question'] = 1;
-            $next_question_id = $this->current_question_id + 1;
-        } else if ($_SESSION['quiz_question']<=$this->current_questions_number_set){
-            $next_question_id = $this->current_question_id + 1;
-            $this->current_question_id = $_SESSION['quiz_question'];
-            $next_question_id = $this->current_question_id + 1;
-            echo "<br>VAR DUMP DE POST";
-            var_dump($_POST);
-            if (!empty($current_button_id)&&$current_button_id==$this->current_question_id+1) {
-                
-                $this->current_question_id = (int)$_SESSION['quiz_question']++;
-                $next_question_id = $this->current_question_id + 1;
-            } else {
-                echo "Id-ul butonului este" . $current_button_id . "<br>";
-                echo "Intrebarea curenta este" . $this->current_question_id . "<br>";
-                echo "GATA sau Nu-i bine<br>";
-            }
-            if ($_SESSION['quiz_question']==$this->current_questions_number_set-1){
-               $_SESSION['quiz_finished']=1; 
-            }
-        }
-        $compact_keys = array('current_question_id', 'next_question_id');
-        $this->data = $this->data + compact($this, 'current_question_id', 'next_question_id', $compact_keys);
-        $this->greet();
-        
-        if (!empty($current_button_id) && $current_button_id == $this->current_question_id + 1) {
-            $this->current_question_id = (int) $_SESSION['quiz_question'] ++;
-            $next_question_id = $this->current_question_id + 1;
-        }
-        
-                    $template = str_replace("{% if (" . $key . "!=\"\") %}", "<?php if ($value!=\"\") ?>", $template);
-            $template = str_replace("{% endif %}", "<?php endif ?>", $template);
+        $this->current_question_id = (int) $_SESSION['quiz_question'] ++;
+        $next_question_id = $this->current_question_id + 1;
+    } else {
+        echo "Id-ul butonului este" . $current_button_id . "<br>";
+        echo "Intrebarea curenta este" . $this->current_question_id . "<br>";
+        echo "GATA sau Nu-i bine<br>";
+    }
+    if ($_SESSION['quiz_question'] == $this->current_questions_number_set - 1) {
+        $_SESSION['quiz_finished'] = 1;
+    }
+}
+$compact_keys = array('current_question_id', 'next_question_id');
+$this->data = $this->data + compact($this, 'current_question_id', 'next_question_id', $compact_keys);
+$this->greet();
+
+if (!empty($current_button_id) && $current_button_id == $this->current_question_id + 1) {
+    $this->current_question_id = (int) $_SESSION['quiz_question'] ++;
+    $next_question_id = $this->current_question_id + 1;
+}
+
+$template = str_replace("{% if (" . $key . "!=\"\") %}", "<?php if ($value!=\"\") ?>", $template);
+$template = str_replace("{% endif %}", "<?php endif ?>", $template);
+
+
+
+
+self::$quiz_url = "index.php?page=admin&operation=" . $sub_page_index;
+$available_questions = $questions->getAvailableQuestions();
+
+
+
+//$added_questions = array(); VERIFIY !
+$available_quiz = $quiz->getAvailableQuiz();
+
+var_dump($_SESSION);
+var_dump($sub_page_index);
+
+
+
+
+
+self::editQuizParametersView($quiz, $edited_quiz_id);
+
+$the_quiz = self::$the_quiz;
+var_dump($the_quiz);
+
+ 
+if ($sub_page_index == "create_quiz") {
+    $added_questions = self::$added_questions;
+} else if ($sub_page_index == "edit_quiz") {
+    $added_questions = self::$the_quiz;
+    //$_SESSION['question_id']=$added_questions;
+}
+
+

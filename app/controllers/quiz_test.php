@@ -10,14 +10,14 @@ class QuizTest extends RenderModel
 {
 
     private $page_title = "Quiz Test";
-    private $json_scripts = array("js_general.js", "admin_js.js");
+    private $json_scripts = array("general_js.js", "admin_js.js");
 
     function __construct()
     {
         if (empty($_SESSION['logged'])) {
             header("Location:index.php?page=login");
         }
-        
+
         include VIEW_PATH . "head_view.php";
         include VIEW_PATH . "main_menu_view.php";
         if (is_numeric($quiz_number = filter_input(INPUT_GET, 'start'))) {
@@ -44,6 +44,7 @@ class QuizTest extends RenderModel
 
     public function resetCounter()
     {
+        unset($_SESSION['email_sent']);
         unset($_SESSION['quiz_finished']);
         unset($_SESSION['quiz_question']);
     }

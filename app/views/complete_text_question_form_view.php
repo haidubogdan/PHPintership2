@@ -6,7 +6,7 @@
         <?= $question::$question_type ?>
     </div>
    
-    <form class='questions_list' method="post" action="index.php?page=add_question" >
+    <form class='questions_list' method="post" action="index.php?page=create_question" >
         <div class="OFF">
             <input type='text' name='question_name' placeholder="question name" value="<?= $question->question_name ?>"/>
             <input name='question_type' value="<?= $question::$question_type_input ?>" />
@@ -16,7 +16,7 @@
             <br>
             <textarea class="question_text" name='valid_answer' placeholder="Complete the valid answer"></textarea>
             
-        <button name='save_question'>Save</button>
+        <button name='save_question' value="save">Save</button>
 
         <?php //real time answer type   ?>
     </form>

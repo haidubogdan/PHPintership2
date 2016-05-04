@@ -34,6 +34,7 @@ class Admin
 
     function __construct()
     {
+        
         $autentificate = new AuthentificateModel ();
         $data = $autentificate->getRenderData();
         if (empty($_SESSION['admin']) && !empty($_SESSION['logged'])) {
@@ -41,19 +42,19 @@ class Admin
         }
         include VIEW_PATH . "head_view.php";
         include VIEW_PATH . "main_menu_view.php";
-        
+
         if (empty($_SESSION['admin'])) {
             $autentificate->render(VIEW_PATH . "admin_login_form_view.php", $data);
         } else {
             include VIEW_PATH . "admin_menu_view.php";
 
             $sub_page = RequestMethods::get('operation');
-            
-            if (!empty($sub_page)) {
+
+            if (!empty($sub_page) && array_key_exists($sub_page, $this->valid_sub_pages_view)) {
                 $class = $this->valid_sub_pages_view[$sub_page]['class'];
                 $page = $this->valid_sub_pages_view[$sub_page]['path'];
-                call_user_func(array(__NAMESPACE__ . "\\" . $class, 'getView'), $page);
-                $element_id = RequestMethods::get($sub_page."_id");
+                call_user_func(array(__NAMESPACE__ . "\\" . $class, 'getView'), $page,$sub_page);
+                $element_id = RequestMethods::get($sub_page . "_id");
             }
         }
         include VIEW_PATH . "footer_view.php";

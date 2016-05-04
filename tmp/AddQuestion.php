@@ -1,10 +1,17 @@
 <?php
 
 namespace Quiz\controllers;
+
 use Quiz\models\QuestionModel as QuestionModel;
 use Quiz\models\QuizModel as QuizModel;
+use Quiz\models\RequestMethods as RequestMethods;
 
-class AddQuestion 
+/**
+ * Description of AddQuestion
+ * Controller class which is the post link for the question creator form
+ * @author bogdanhaidu
+ */
+class AddQuestion
 {
 
     private $page_title = "add question";
@@ -15,11 +22,10 @@ class AddQuestion
         "complete_text" => array("function" => ''),
     );
 
-    function __construct() 
+    function __construct()
     {
 
         $question = new QuestionModel ();
-        //print_r($number_of_answers);
         $question_args = array(
             'question_name' => "FILTER_SANITIZE_SPECIAL_CHARS",
             'question_text' => "FILTER_SANITIZE_SPECIAL_CHARS",
@@ -31,7 +37,7 @@ class AddQuestion
         $question_inputs = filter_input_array(INPUT_POST, $question_args);
         $type = $question_inputs['question_type'];
         $function = $this->question_type[$type]["function"];
-        //call_user_func('\AddQuestion::' . $function);
+
         if ($function != "") {
             $question_answer = $this->$function();
         } else {
@@ -43,32 +49,40 @@ class AddQuestion
         $question_data = $question_inputs + $question_answer + $date;
         $result = $question->saveQuestion($question_data);
         if ($result == 1) {
-            $_SESSION['saved_question']= $question_inputs['question_name'];
+            $_SESSION['saved_question'] = $question_inputs['question_name'];
             header("location:index.php?page=admin&operation=create_question");
         }
     }
 
-    public function saveSingleAnswerQuestion() 
+    /**
+     * creates an array with the question answers and valid answers
+     * @return array
+     */
+    public function saveSingleAnswerQuestion()
     {
-        $number_of_answers = filter_input(INPUT_POST, 'number_of_answers');
+        $number_of_answers = RequestMethods::post('number_of_answers');
         for ($i = 1; $i <= $number_of_answers; $i++) {
             $key = "answer_" . $i;
-            $question_answer[$key] = filter_input(INPUT_POST, $key);
+            $question_answer[$key] = RequestMethods::post($key);
             $key2 = "valid_answer_" . $i;
-            $question_answer[$key2] = filter_input(INPUT_POST, $key2);
+            $question_answer[$key2] = RequestMethods::post($key2);
         }
 
         return $question_answer;
     }
 
-    public function saveMultipleAnswerQuestion() 
+    /**
+     * creates an array with the question answers and valid answers
+     * @return array
+     */
+    public function saveMultipleAnswerQuestion()
     {
-        $number_of_answers = filter_input(INPUT_POST, 'number_of_answers');
+        $number_of_answers = RequestMethods::post('number_of_answers');
         for ($i = 1; $i <= $number_of_answers; $i++) {
             $key = "answer_" . $i;
-            $question_answer[$key] = filter_input(INPUT_POST, $key);
+            $question_answer[$key] = RequestMethods::post($key);
             $key2 = "valid_answer_" . $i;
-            $question_answer[$key2] = filter_input(INPUT_POST, $key2);
+            $question_answer[$key2] = RequestMethods::post($key2);
         }
         return $question_answer;
     }

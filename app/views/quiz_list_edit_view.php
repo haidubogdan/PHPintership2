@@ -18,7 +18,7 @@ unset($_SESSION['question_position']);
 }
 ?>
 
-<table>
+<table class="quiz_table">
     <tr>
         <th>Id</th>
         <th>Available quiz</th>
@@ -28,7 +28,7 @@ unset($_SESSION['question_position']);
         <tr>
             <td><?= $row['id'] ?></td>
             <td><?= $row['quiz_name'] ?></td>
-            <td><a class="delete_button" href="<?= $current_index . "&delete_quiz=" . $key ?>">X</a></td>
+            <td><a data-del_id="<?=$key?>" class="delete_button" href="<?= $current_index . "&delete_quiz=" . ($key+1) ?>">X</a></td>
             <td><a class="edit_button" href="<?= $quiz_edit_index . "&quiz=" . $key ?>">EDIT</a></td>
         </tr>
     <?php endforeach; ?>

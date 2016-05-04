@@ -8,11 +8,13 @@ use Quiz\models\RegistrationModel as RegistrationModel;
 use Quiz\Entitiy\UserRepository as UserRepository;
 use Quiz\models\AuthentificateModel as AuthentificateModel;
 
+
+
 class Registration
 {
 
     private $page_title = "registration";
-    private $json_scripts = array("js_general.js");
+    private $json_scripts = array("general_js.js");
 
     function __construct()
     {

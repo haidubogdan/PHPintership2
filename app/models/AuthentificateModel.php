@@ -8,7 +8,8 @@ use Quiz\Entitiy\UserRepository as UserRepository;
 
 class AuthentificateModel extends RenderModel
 {
-    public $authentificated_user;    
+
+    public $authentificated_user;
     private $users_data_path = "app/db/users/";
     private $file_name = "users.json";
     private $error = 0;
@@ -30,8 +31,8 @@ class AuthentificateModel extends RenderModel
             $this->data["password_error"] = "Complete password";
             $this->error = 1;
         }
-        if (!$this->error&&!$this->validateLogin($this->data)) {
-            $this->data["credential_error"] = "Wrong username / password";
+        if (!$this->error && !$this->validateLogin($this->data)) {
+            $this->data["credential_error"] = "Wrong email / password";
             $this->error = 1;
         }
 
@@ -41,7 +42,7 @@ class AuthentificateModel extends RenderModel
             $user->setUserType($usertype);
             $this->authentificated_user = $user;
             var_dump($this->authentificated_user);
-        } 
+        }
         $this->data['error'] = $this->error;
     }
 
@@ -73,9 +74,11 @@ class AuthentificateModel extends RenderModel
     {
         return function(&$item) use ($data) {
 
-            if ($item['email'] == $data['email'] && password_verify($data['password'], $item['password'])) {
-                $data['password'] = $item['password'];
-                return $item;
+            if (array_key_exists('email', $item)) {
+                if ($item['email'] == $data['email'] && password_verify($data['password'], $item['password'])) {
+                    $data['password'] = $item['password'];
+                    return $item;
+                }
             }
         };
     }
@@ -97,7 +100,7 @@ class AuthentificateModel extends RenderModel
         $_SESSION['user']['username'] = $username;
         $start_session_name = $user->getUserType() . "Session";
         $this->$start_session_name();
-     }
+    }
 
     public function descructSession()
     {
@@ -108,6 +111,7 @@ class AuthentificateModel extends RenderModel
     public function AdministratorSession()
     {
         $_SESSION['admin'] = true;
+        $_SESSION['user']['username'] = 'Admin';
         header("Location:index.php?page=admin");
     }
 

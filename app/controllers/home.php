@@ -2,16 +2,19 @@
 
 namespace Quiz\controllers;
 
+use Quiz\models\QuestionModel as QuestionModel;
 
 class Home
 {
 
     private $page_title = "home";
-    private $json_scripts = array("js_general.js", "admin_js.js");
+    private $json_scripts = array("general_js.js", "admin_js.js");
 
     function __construct()
     {
-        var_dump($_SESSION);
+        //TEST PENTRU A CONVERTI ARRAY IN CLASS SI SERIALIZE
+//        $question_model = new QuestionModel ();
+//        $question_model->convertArraytoClass();
         include VIEW_PATH . "head_view.php";
         include VIEW_PATH . "main_menu_view.php";
         include VIEW_PATH . "home_view.php";

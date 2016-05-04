@@ -13,7 +13,7 @@
         <?= $question->getNumberOfAnswers() ?>
     </div>
 
-    <form class='questions_list' method="post" action="index.php?page=add_question" >
+    <form class='questions_list' method="post" action="index.php?page=create_question" >
         <div class="OFF">
             <input type='text' name='question_name' placeholder="question name" value="<?= $question->question_name ?>"/>
             <input type='text' name='question_type' placeholder="question type" value="<?= $question::$question_type_input ?>"/>
@@ -26,7 +26,7 @@
             <br>
         <?php endfor ?>
 
-        <button name='next_operation'>Next</button>
+        <button name='save_question' value="save">Next</button>
 
         <?php //real time answer type   ?>
     </form>

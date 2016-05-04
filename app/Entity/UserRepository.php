@@ -20,7 +20,7 @@ class UserRepository extends DB
     function __construct()
     {
         $files = scandir ($this->save_path);
-        var_dump($files);
+        //var_dump($files);
         if(!($key=array_search($this->file_name,$files))){
             $this->connected=0;
             echo "Warning!!! Database connection lost!";

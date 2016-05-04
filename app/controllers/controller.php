@@ -17,7 +17,6 @@ class Controller
         $pages = array(
             "home" => array("path" => "home.php", "class" => "Home"),
             "create_question" => array("path" => "CreateQuestion.php", "class" => "CreateQuestion"),
-            "add_question" => array("path" => "add_question.php", "class" => "AddQuestion"),
             "edit_question" => array("path" => "edit_question.php", "class" => "EditQuestion"),
             "create_question_part2" => array("path" => "create_question_part2.php", "class" => "CreateQuestion2"),
             "admin" => array("path" => "admin.php", "class" => "Admin"),
